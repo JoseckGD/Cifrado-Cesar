@@ -17,6 +17,7 @@
 }
 
 .input-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,12 +28,6 @@
   text-align: left;
 }
 
-.input-field {
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
 .button {
   background-color: #646cff;
 }
@@ -40,10 +35,21 @@
   background-color: #ff6464;
 }
 
+.table {
+  width: 100%;
+  overflow-x: auto;
+  height: fit-content;
+}
+
+.table table {
+  width: var(100%-2em);
+  overflow-x: scroll;
+}
+
 table {
   width: 100%;
   background-color: #1a1a1a;
-  border-radius: 8px;
+  border-radius: 1em;
   padding: 2em;
 }
 
@@ -61,8 +67,14 @@ table tbody tr:nth-child(odd) {
   background-color: #1a1a1a;
   border-radius: 8px;
   padding: 2em;
+  overflow-x: auto;
 }
 
 .result-label {
   margin-right: 5px;
+}
+
+.inputs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }

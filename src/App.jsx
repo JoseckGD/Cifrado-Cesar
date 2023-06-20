@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./App.css";
 
 const App = () => {
-  const [text, setText] = useState("Hola como estas");
-  const [password, setPassword] = useState("asd");
+  const [text, setText] = useState(
+    "PETER LEGRAND IS A GOOD FRIEND OF NAPOLEON"
+  );
+  const [password, setPassword] = useState("LOUPL");
   const [cipherText, setCipherText] = useState("");
   const [decipheredText, setDecipheredText] = useState("");
   const [cipherTable, setCipherTable] = useState([]);
   const [decipheredTextTable, setDecipheredTextTable] = useState("");
 
   const alfabeto = "abcdefghijklmnñopqrstuvwxyz";
+  const inputArchivo = useRef(null);
 
   const handleTextChange = (event) => {
     setText(event.target.value);
@@ -84,7 +87,7 @@ const App = () => {
 
       if (charIndex !== -1) {
         const passwordIndex = i % password.length;
-        passwordChar = password.charAt(passwordIndex);
+        passwordChar = password.toLowerCase().charAt(passwordIndex);
         passwordCharIndex = alfabeto.indexOf(passwordChar);
 
         decipheredCharIndex =
@@ -121,13 +124,44 @@ const App = () => {
     setDecipheredText("");
     setCipherTable([]);
     setDecipheredTextTable([]);
+    if (inputArchivo.current) {
+      inputArchivo.current.value = ""; // Borrar el valor actual del campo de entrada de tipo "file"
+    }
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+
+    if (file && file.type.includes("text/plain")) {
+      const reader = new FileReader();
+      reader.onload = handleFileRead;
+      reader.readAsText(file);
+    }
+  };
+
+  const handleFileRead = (event) => {
+    const content = event.target.result;
+    // console.log(content);
+    setText(content);
   };
 
   return (
     <>
       <h1>Cifrado César</h1>
 
-      <section className="container">
+      <section className="container inputs">
+        <div className="input-container">
+          <label htmlFor="text-file" className="input-label">
+            Archivo de Texto:
+          </label>
+          <input
+            type="file"
+            id="text-file"
+            onChange={handleFileChange}
+            ref={inputArchivo}
+          />
+        </div>
+
         <div className="input-container">
           <label htmlFor="text" className="input-label">
             Texto a codificar:
@@ -187,7 +221,7 @@ const App = () => {
       </section>
 
       {cipherTable.length !== 0 && (
-        <section className="container">
+        <section className="container table">
           <table>
             <thead>
               <tr>
